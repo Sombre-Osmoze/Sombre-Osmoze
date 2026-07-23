@@ -1,0 +1,21 @@
+name: Stamp Delivery
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  stamp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: foreground-team/stamped-github-actions@v1
+        id: stamp
+        with:
+          token: ${{ secrets.STAMPED_TOKEN }}
+          registry-id: ${{ secrets.STAMPED_REGISTRY_ID }}
+          encryption-key: ${{ secrets.STAMPED_ENCRYPTION_KEY }}
+
+      - name: Print delivery proof
+        run: echo "✅ ${{ steps.stamp.outputs.verify-url }}"
